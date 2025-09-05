@@ -59,9 +59,9 @@ body {
 .action-H { background-color: #A7F3D0; color: #065F46; } /* Green for Hit */
 .action-D { background-color: #BFDBFE; color: #1E40AF; } /* Blue for Double */
 .action-P { background-color: #FDE68A; color: #92400E; } /* Yellow for Split */
-.action-Ds { background: linear-gradient(to bottom right, #BFDBFE 50%, #A7F3D0 50%); color: #1E40AF;}
-.action-Rh { background: linear-gradient(to bottom right, #E5E7EB 50%, #FECACA 50%); color: #374151;}
-.action-Ph { background: linear-gradient(to bottom right, #FDE68A 50%, #FECACA 50%); color: #92400E;}
+.action-Ds { background: linear-gradient(to bottom right, #BFDBFE 50%, #FECACA 50%); color: #1E40AF;}
+.action-Rh { background: linear-gradient(to bottom right, #E5E7EB 50%, #A7F3D0 50%); color: #374151;}
+.action-Ph { background: linear-gradient(to bottom right, #FDE68A 50%, #A7F3D0 50%); color: #92400E;}
 
 /* Styling for the action buttons in the main gameplay screen */
 .action-button {
