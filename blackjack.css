@@ -1,0 +1,219 @@
+body {
+  font-family: 'Inter', sans-serif;
+  touch-action: manipulation;
+}
+
+/* Styling for all cards */
+.card {
+  width: 80px;
+  height: 110px;
+  border-radius: 8px;
+  background-color: white;
+  border: 1px solid #B0B0B0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 24px;
+  font-weight: 600;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+  position: relative;
+  transform-style: preserve-3d;
+}
+
+/* Coloring for Hearts and Diamonds */
+.card.red { color:rgb(210, 30, 20); }
+
+/* Coloring for Spades and Clubs */
+.card.black { color:rgb(10, 15, 30); }
+.card .suit { font-size: 20px; }
+
+/* Positioning rules so the card value can be pinned to top left and bottom
+   right corners. */
+.card .corner {
+  position: absolute;
+  line-height: 1;
+  text-align: center;
+}
+.card .corner.top { top: 8px; left: 8px; }
+.card .corner.bottom { bottom: 8px; right: 8px; transform: rotate(180deg); }
+
+/* Styling rules for the back of the card - Just a grey gradient for now. */
+.card-back {
+   background: repeating-linear-gradient( 45deg,
+    rgb(75, 85, 100),
+    rgb(75,85,100) 10px,
+    rgb(110, 110, 130) 10px,
+    rgb(110, 110, 130) 20px );
+}
+
+/* Styling for the strategy table */
+.strategy-table td, .strategy-table th {
+  text-align: center;
+  padding: 8px;
+  border: 1px solid #E5E7EB;
+  font-weight: 700;
+  height: 40px;
+  width: 40px;
+}
+.action-S { background-color: #FECACA; color: #991B1B; } /* Red for Stand */
+.action-H { background-color: #A7F3D0; color: #065F46; } /* Green for Hit */
+.action-D { background-color: #BFDBFE; color: #1E40AF; } /* Blue for Double */
+.action-P { background-color: #FDE68A; color: #92400E; } /* Yellow for Split */
+.action-Ds { background: linear-gradient(to bottom right, #BFDBFE 50%, #A7F3D0 50%); color: #1E40AF;}
+.action-Rh { background: linear-gradient(to bottom right, #E5E7EB 50%, #FECACA 50%); color: #374151;}
+.action-Ph { background: linear-gradient(to bottom right, #FDE68A 50%, #FECACA 50%); color: #92400E;}
+
+/* Styling for the action buttons in the main gameplay screen */
+.action-button {
+  transition: all 0.2s ease-in-out;
+  position: relative;
+}
+.action-button:hover {  /* make it look like it lifts for feels */
+  transform: translateY(-2px);
+  box-shadow: 0 6px 10px rgba(0,0,0,0.15);
+}
+.action-button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
+}
+/* Styling to show the check or x on a action button after a click */
+.action-button::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) scale(0.5);
+  font-size: 32px;  
+  font-weight: bold;
+  opacity: 0;
+  color: white;
+  transition: all 0.3s ease-in-out;
+  text-shadow: 0 0 5px rgb(0,0,0,0.5);
+}
+.action-button.correct::after {
+  content: '✔';
+  opacity: 1;
+  transform: translate(-50%, -50%) scale(1);
+}
+.action-button.incorrect::after {
+  content: '✖';
+  opacity: 1;
+  transform: translate(-50%, -50%) scale(1);
+}
+
+/* Styling for the player's hand */
+#player-hand {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+/* Creates a box for holds each hand.  Important when dealing with splits. */
+.player-hand-container {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 1rem;
+  padding: 8px;
+  border: 3px solid transparent;
+  border-radius: 12px;
+  transition: all 0.3s ease-in-out;
+}
+.hand-cards, #dealer-hand {  /* the cards in the hand */
+  display: flex;
+}
+ /* Overlap subsequent cards */
+.hand-cards .card:not(:first-child), #dealer-hand .card:not(:first-child) { 
+  margin-left: -45px;
+}
+.hand-info { /* The total and eventual result of the hand */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  min-width: 60px;
+}
+.hand-badge {
+  padding: 2px 8px;
+  border-radius: 9999px;
+  font-size: 12px;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: white;
+  animation: fadeIn 0.5s ease-in forwards;
+}
+.hand-total {
+  font-size: 24px;
+  font-weight: 700;
+  line-height: 1;
+}
+
+.active-hand {
+  border-color: #4f46e5; 
+  box-shadow: 0 0 15px rgba(80, 70, 230, 0.4);
+}
+
+/* Styling for all pop up windows (End of Shoe, Review Mistakes, etc.) */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.6);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+/* Styling for the table showing betting strategies */
+.betting-table td, .betting-table th {
+  text-align: center;
+  padding: 6px 4px;
+  border: 1px solid rgb(230,230,230);
+}
+
+/* Animations for dealing and flipping cards and fading in the blackjack
+   overlay.  */
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+@keyframes dealIn {
+  from { opacity: 0; transform: translateY(-60px) rotateX(45deg); }
+  to { opacity: 1; transform: translateY(0px) rotateX(0deg); }
+}
+@keyframes flipCard {
+  from { transform: rotateY(90deg); }
+  to { transform: rotateY(0deg); }
+}
+@keyframes zoomInFadeIn {
+  from { opacity: 0; transform: scale(0.5); }
+  to { opacity: 1; transform: scale(1); }
+}
+
+/* Rules for styling the dealing of cards */
+.deal .card {
+  animation: dealIn 0.4s ease-out backwards;
+}
+.deal .card:nth-child(2) { animation-delay: 0.1s; }
+.deal .card:nth-child(3) { animation-delay: 0.2s; }
+.deal .card:nth-child(4) { animation-delay: 0.3s; }
+
+.added-card {
+  animation: dealIn 0.4s ease-out backwards;
+}
+.flipped-card {
+  animation: flipCard 0.4s ease-out;
+}
+
+/* Styling of the blackjack overlay */
+#blackjack-graphic.active {
+  display: flex;
+  animation: zoomInFadeIn 0.5s cubic-bezier(0.2, 0.9, 0.3, 1.2); 
+}
